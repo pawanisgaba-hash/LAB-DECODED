@@ -1,0 +1,13 @@
+---
+const { article, url } = Astro.props;
+---
+<article class="card metric-card">
+  <div>
+    <p class="badge">{article.category}</p>
+    <h3>{article.title}</h3>
+    <p>{article.description}</p>
+  </div>
+  <div style="margin-top:1rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;">
+    <a class="button button-secondary" href={url}>Read article</a>
+  </div>
+</article>

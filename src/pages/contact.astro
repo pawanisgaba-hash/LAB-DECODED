@@ -1,0 +1,20 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+---
+<BaseLayout title="Contact · LabDecoded" description="Contact LabDecoded for feedback, content requests and clinical resource inquiries." pathname="/contact">
+  <Header />
+  <section class="container section">
+    <div class="page-heading">
+      <p class="badge">Contact</p>
+      <h1>Contact LabDecoded</h1>
+      <p>Send feedback, request a calculator, or ask about laboratory educational resources.</p>
+    </div>
+    <div class="card metric-card" style="margin-top:1.5rem;">
+      <h3>Get in touch</h3>
+      <p>Please email us at <a href="mailto:info@labdecoded.org">info@labdecoded.org</a> or use this website for educational resource queries.</p>
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

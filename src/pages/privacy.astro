@@ -1,0 +1,19 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+---
+<BaseLayout title="Privacy Policy · LabDecoded" description="Privacy policy for LabDecoded website use." pathname="/privacy">
+  <Header />
+  <section class="container section">
+    <div class="page-heading">
+      <p class="badge">Privacy</p>
+      <h1>Privacy Policy</h1>
+      <p>We respect your privacy and do not collect personal data through this site.</p>
+    </div>
+    <div class="card metric-card" style="margin-top:1.5rem;">
+      <p>No user accounts or database storage are used at this time. Any information shared via email is handled in accordance with standard privacy practices.</p>
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

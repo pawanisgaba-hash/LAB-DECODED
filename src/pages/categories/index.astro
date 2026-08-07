@@ -1,0 +1,25 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import { categories } from '~/data/categories';
+---
+<BaseLayout title="Categories · LabDecoded" description="Browse calculator categories for laboratory medicine topics." pathname="/categories">
+  <Header />
+  <section class="container section">
+    <div class="page-heading">
+      <p class="badge">Categories</p>
+      <h1>Calculator Categories</h1>
+      <p>Explore clinical calculator categories by laboratory specialty.</p>
+    </div>
+    <div class="grid grid-3" style="margin-top:1.5rem;">
+      {categories.map((category) => (
+        <a class="card metric-card" href={`/categories/${category.slug}`}>
+          <h3>{category.name}</h3>
+          <p>{category.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

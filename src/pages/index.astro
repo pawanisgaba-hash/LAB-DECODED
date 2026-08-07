@@ -1,0 +1,91 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import CalculatorCard from '~/components/CalculatorCard.astro';
+import { calculators } from '~/data/calculators';
+import { categories } from '~/data/categories';
+
+const featured = calculators.filter((item) => item.featured).slice(0, 6);
+const popular = calculators.slice(0, 8);
+const categoryCards = categories.slice(0, 8);
+---
+<BaseLayout title="LabDecoded — Clinical Laboratory Calculators & Diagnostic Tools" description="Accurate, practical and easy-to-use tools for laboratory medicine, diagnostics and clinical practice." pathname="/">
+  <Header />
+  <section class="container hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="badge">Clinical Laboratory Tools</p>
+        <h1>Clinical Laboratory Calculators & Diagnostic Tools</h1>
+        <p>Accurate, practical and easy-to-use tools for laboratory medicine, diagnostics and clinical practice.</p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;">
+          <a class="button button-primary" href="/search">Search calculators</a>
+          <a class="button button-secondary" href="/articles">Explore articles</a>
+        </div>
+      </div>
+      <div class="card search-card">
+        <div class="search-field">
+          <label class="input-label" for="home-search">Search calculators, tests and laboratory topics...</label>
+          <input id="home-search" class="input-control" placeholder="e.g. creatinine, FIB-4, testosterone" />
+        </div>
+        <p class="small-text" style="margin-top:1rem;">Find calculators, articles and clinical reference tools.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-title">Popular Calculators</div>
+    <div class="grid grid-3">
+      {popular.map((calculator) => <CalculatorCard calculator={calculator} />)}
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-title">Browse by Category</div>
+    <div class="grid grid-4">
+      {categoryCards.map((category) => (
+        <a class="card metric-card" href={`/categories/${category.slug}`}>
+          <h3>{category.name}</h3>
+          <p>{category.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-title">Featured Laboratory Tools</div>
+    <div class="grid grid-3">
+      {featured.map((calculator) => <CalculatorCard calculator={calculator} />)}
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="section-title">Why LabDecoded?</div>
+    <div class="grid grid-2">
+      <div class="metric-card">
+        <h3>Clinically useful</h3>
+        <p>Tools are designed for laboratory professionals and clinicians with real-world application.</p>
+      </div>
+      <div class="metric-card">
+        <h3>Transparent formulas</h3>
+        <p>Each calculator shows the formula, units, and limitations for confident use.</p>
+      </div>
+      <div class="metric-card">
+        <h3>Easy interpretation</h3>
+        <p>Results include interpretation categories, not just raw numbers.</p>
+      </div>
+      <div class="metric-card">
+        <h3>Regularly reviewed</h3>
+        <p>Calculators reference guidelines and are built for ongoing clinical accuracy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container section">
+    <div class="card metric-card">
+      <h3>Medical disclaimer</h3>
+      <p>This calculator platform is for educational and informational purposes only. It is not a substitute for professional medical judgment, diagnosis, or treatment.</p>
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,19 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+---
+<BaseLayout title="Disclaimer · LabDecoded" description="Medical disclaimer for LabDecoded clinical calculators and informational content." pathname="/disclaimer">
+  <Header />
+  <section class="container section">
+    <div class="page-heading">
+      <p class="badge">Disclaimer</p>
+      <h1>Medical Disclaimer</h1>
+      <p>LabDecoded provides educational tools and reference material only. It does not replace clinical judgment or professional medical advice.</p>
+    </div>
+    <div class="card metric-card" style="margin-top:1.5rem;">
+      <p>This website is intended for educational and informational purposes only. It is not a substitute for professional medical judgment, diagnosis, or treatment.</p>
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

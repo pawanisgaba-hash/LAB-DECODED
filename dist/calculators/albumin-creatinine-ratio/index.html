@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Albumin Creatinine Ratio · LabDecoded</title><meta name="description" content="Calculate spot urine albumin-to-creatinine ratio for kidney damage screening."><link rel="canonical" href="https://labdecoded.org/calculators/albumin-creatinine-ratio"><meta property="og:type" content="website"><meta property="og:title" content="Albumin Creatinine Ratio · LabDecoded"><meta property="og:description" content="Calculate spot urine albumin-to-creatinine ratio for kidney damage screening."><meta property="og:url" content="https://labdecoded.org/calculators/albumin-creatinine-ratio"><meta property="og:site_name" content="LabDecoded"><meta property="og:image" content="https://labdecoded.org/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Albumin Creatinine Ratio · LabDecoded"><meta name="twitter:description" content="Calculate spot urine albumin-to-creatinine ratio for kidney damage screening."><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="/src/global.css"></head> <body>  <main> <header class="header"> <div class="container header-inner"> <a class="logo" href="/">LabDecoded</a> <nav class="nav-links" aria-label="Primary navigation"> <a class="nav-link" href="/calculators">Calculators</a> <a class="nav-link" href="/categories">Categories</a> <a class="nav-link" href="/articles">Articles</a> <a class="nav-link" href="/about">About</a> </nav> <div class="nav-links"> <a class="nav-link" href="/search" aria-label="Search">Search</a> </div> </div> </header> <section class="container section"> <nav class="breadcrumbs" aria-label="Breadcrumb"> <span> <a href="/">Home</a> <span aria-hidden="true">/</span> </span><span> <a href="/calculators">Calculators</a> <span aria-hidden="true">/</span> </span><span> <span>Albumin Creatinine Ratio</span>  </span> </nav> <div class="page-heading" style="margin-top:1rem;"> <p class="badge">Urinalysis</p> <h1>Albumin Creatinine Ratio</h1> <p>Calculate spot urine albumin-to-creatinine ratio for kidney damage screening.</p> </div> <div class="grid form-grid" style="margin-top:1.5rem;"> <div class="card form-card" id="calculatorForm"></div> <div class="card result-card"> <div class="result-panel" id="resultPanel"> <h2>Result</h2> <p id="resultValue" class="result-value">Enter values to calculate</p> <p id="resultInterpretation" class="small-text"></p> </div> </div> </div> <div class="card metric-card" style="margin-top:1.5rem;"> <h3>Formula</h3> <p>ACR = urine albumin (mg) / urine creatinine (g)</p> </div> <div class="card metric-card" style="margin-top:1.5rem;"> <h3>Clinical interpretation</h3> <ul> <li>&lt;30 mg/g: Normal to mildly increased</li><li>30–300 mg/g: Moderately increased (microalbuminuria)</li><li>&gt;300 mg/g: Severely increased</li> </ul> <p>Use spot collection and same lab units. Confirm with repeat test before staging CKD.</p> </div> <div class="card metric-card" style="margin-top:1.5rem;"> <h3>References</h3> <ul> <li><a href="https://kdigo.org/guidelines/ckd-evaluation-and-management/" target="_blank" rel="noopener noreferrer">KDIGO albuminuria categories</a></li> </ul> <p class="small-text">Last reviewed: 2026-08-07</p> <p class="small-text">This calculator is intended for educational and informational purposes only. It is not a substitute for professional medical judgment, diagnosis, or treatment.</p> </div> </section> <footer class="footer"> <div class="container footer-grid"> <div> <h3>LabDecoded</h3> <p>Clinical laboratory calculators, diagnostic tools and educational resources for healthcare professionals.</p> </div> <div> <h3>Tools</h3> <a href="/calculators">Calculators</a> <a href="/categories">Categories</a> <a href="/search">Search</a> </div> <div> <h3>Articles</h3> <a href="/articles">Articles</a> <a href="/about">About</a> <a href="/contact">Contact</a> </div> <div> <h3>Legal</h3> <a href="/privacy">Privacy</a> <a href="/terms">Terms</a> <a href="/disclaimer">Disclaimer</a> </div> </div> <div class="container footer-note"> <p class="footer-legal">© 2026 LabDecoded. This website is for educational purposes only and is not a substitute for professional medical judgment.</p> </div> </footer> <script id="calculatorData" type="application/json">{"id":"albumin-creatinine-ratio","slug":"albumin-creatinine-ratio","name":"Albumin Creatinine Ratio","shortDescription":"Calculate spot urine albumin-to-creatinine ratio for kidney damage screening.","category":"Urinalysis","icon":"activity","keywords":["albumin creatinine ratio","uacr","urine albumin","renal"],"formula":"ACR = urine albumin (mg) / urine creatinine (g)","inputs":[{"id":"urineAlbumin","label":"Urine Albumin","type":"number","unitOptions":["mg/L","mg/dL"],"min":1,"max":2000,"step":"0.1"},{"id":"urineCreatinine","label":"Urine Creatinine","type":"number","unitOptions":["mg/dL","mmol/L"],"min":1,"max":2000,"step":"0.1"}],"output":{"label":"Albumin Creatinine Ratio","unit":"mg/g"},"interpretation":["<30 mg/g: Normal to mildly increased","30–300 mg/g: Moderately increased (microalbuminuria)",">300 mg/g: Severely increased"],"references":[{"label":"KDIGO albuminuria categories","url":"https://kdigo.org/guidelines/ckd-evaluation-and-management/"}],"lastReviewed":"2026-08-07","clinicalNotes":"Use spot collection and same lab units. Confirm with repeat test before staging CKD."}</script> <script type="module">
+    import { calculateByCalculatorId } from '~/lib/calculators/dispatch';
+
+    const calculator = JSON.parse(document.getElementById('calculatorData').textContent);
+    const container = document.getElementById('calculatorForm');
+    const resultValue = document.getElementById('resultValue');
+    const resultInterpretation = document.getElementById('resultInterpretation');
+    const validationMessage = document.createElement('p');
+    validationMessage.style.color = 'var(--danger)';
+    validationMessage.style.marginTop = '1rem';
+    container.appendChild(validationMessage);
+
+    function buildInputField(input) {
+      const group = document.createElement('div');
+      group.className = 'input-group';
+      const label = document.createElement('label');
+      label.className = 'input-label';
+      label.textContent = input.label;
+      label.htmlFor = input.id;
+      group.appendChild(label);
+      if (input.type === 'select') {
+        const select = document.createElement('select');
+        select.id = input.id;
+        select.className = 'select-control';
+        input.unitOptions.forEach((option) => {
+          const opt = document.createElement('option');
+          opt.value = option;
+          opt.textContent = option;
+          select.appendChild(opt);
+        });
+        group.appendChild(select);
+      } else {
+        const inputEl = document.createElement('input');
+        inputEl.id = input.id;
+        inputEl.type = 'number';
+        inputEl.className = 'input-control';
+        inputEl.step = input.step || 'any';
+        inputEl.min = String(input.min ?? '');
+        inputEl.max = String(input.max ?? '');
+        inputEl.placeholder = input.placeholder ?? '';
+        group.appendChild(inputEl);
+      }
+      return group;
+    }
+
+    function renderForm() {
+      const form = document.createElement('form');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        validationMessage.textContent = '';
+        const values = {};
+        let invalid = false;
+        calculator.inputs.forEach((input) => {
+          const element = document.getElementById(input.id);
+          if (!element) return;
+          const raw = element.value;
+          if (input.type === 'number') {
+            const value = parseFloat(raw);
+            if (Number.isNaN(value) || value <= 0) {
+              invalid = true;
+              validationMessage.textContent = `Please enter a valid ${input.label.toLowerCase()}.`;
+            }
+            values[input.id] = value;
+            const select = document.getElementById(`${input.id}-unit`);
+            if (select) values[`${input.id}Unit`] = select.value;
+          } else {
+            values[input.id] = raw;
+          }
+        });
+        if (invalid) return;
+        const result = calculateResult(values);
+        if (!result) {
+          validationMessage.textContent = 'Unable to calculate with the entered values.';
+          return;
+        }
+        resultValue.textContent = `${result.value} ${result.unit}`;
+        resultInterpretation.textContent = calculator.interpretation[0] || '';
+      });
+      calculator.inputs.forEach((input) => {
+        const field = buildInputField(input);
+        if (input.type === 'number' && input.unitOptions && input.unitOptions.length > 1) {
+          const unitSelect = document.createElement('select');
+          unitSelect.id = `${input.id}-unit`;
+          unitSelect.className = 'select-control';
+          input.unitOptions.forEach((option) => {
+            const opt = document.createElement('option');
+            opt.value = option;
+            opt.textContent = option;
+            unitSelect.appendChild(opt);
+          });
+          const wrapper = document.createElement('div');
+          wrapper.style.display = 'grid';
+          wrapper.style.gap = '0.75rem';
+          wrapper.appendChild(field);
+          wrapper.appendChild(unitSelect);
+          form.appendChild(wrapper);
+        } else {
+          form.appendChild(field);
+        }
+      });
+      const buttonWrapper = document.createElement('div');
+      buttonWrapper.style.display = 'flex';
+      buttonWrapper.style.gap = '1rem';
+      buttonWrapper.style.flexWrap = 'wrap';
+      const submit = document.createElement('button');
+      submit.type = 'submit';
+      submit.className = 'button button-primary';
+      submit.textContent = 'Calculate';
+      const reset = document.createElement('button');
+      reset.type = 'reset';
+      reset.className = 'button button-secondary';
+      reset.textContent = 'Reset';
+      reset.addEventListener('click', () => {
+        resultValue.textContent = 'Enter values to calculate';
+        resultInterpretation.textContent = '';
+        validationMessage.textContent = '';
+      });
+      buttonWrapper.appendChild(submit);
+      buttonWrapper.appendChild(reset);
+      form.appendChild(buttonWrapper);
+      form.appendChild(validationMessage);
+      container.appendChild(form);
+    }
+
+    function calculateResult(inputs) {
+      return calculateByCalculatorId(calculator.id, inputs);
+    }
+
+    renderForm();
+  </script> </main>  </body></html>

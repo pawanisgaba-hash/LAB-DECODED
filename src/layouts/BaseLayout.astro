@@ -1,0 +1,32 @@
+---
+const { title, description, pathname, image, children } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pathname ? `https://labdecoded.org${pathname}` : 'https://labdecoded.org'} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pathname ? `https://labdecoded.org${pathname}` : 'https://labdecoded.org'} />
+    <meta property="og:site_name" content="LabDecoded" />
+    <meta property="og:image" content={image ?? 'https://labdecoded.org/og-image.png'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/global.css" />
+  </head>
+  <body>
+    <slot name="header" />
+    <main><slot /></main>
+    <slot name="footer" />
+  </body>
+</html>

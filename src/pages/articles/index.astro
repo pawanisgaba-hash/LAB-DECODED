@@ -1,0 +1,21 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import ArticleCard from '~/components/ArticleCard.astro';
+import { articles } from '~/lib/articles';
+---
+<BaseLayout title="Articles · LabDecoded" description="Browse authoritative laboratory medicine articles and educational resources." pathname="/articles">
+  <Header />
+  <section class="container section">
+    <div class="page-heading">
+      <p class="badge">Articles</p>
+      <h1>LabDecoded Articles</h1>
+      <p>Insights and educational resources for laboratory professionals and clinical teams.</p>
+    </div>
+    <div class="grid grid-3" style="margin-top:1.5rem;">
+      {articles.map((article) => <ArticleCard article={article} url={`/articles/${article.slug}`} />)}
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

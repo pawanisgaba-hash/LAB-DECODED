@@ -1,0 +1,697 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import Breadcrumbs from '~/components/Breadcrumbs.astro';
+
+import {
+  calculators
+} from '~/lib/calculators/registry';
+
+export function getStaticPaths() {
+
+  return calculators.map((calculator) => ({
+
+    params: {
+      slug: calculator.slug
+    },
+
+    props: {
+      calculator
+    }
+
+  }));
+
+}
+
+const {
+  calculator
+} = Astro.props;
+
+const pageTitle =
+  `${calculator.name} Calculator`;
+
+const description =
+  calculator.shortDescription;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={description}
+  pathname={`/calculators/${calculator.slug}`}
+>
+
+  <Header />
+
+  <main class="calculator-page">
+
+    <Breadcrumbs />
+
+    <section class="calculator-header">
+
+      <div>
+
+        <div class="calculator-category">
+          {calculator.category}
+        </div>
+
+        <h1>
+          {calculator.name}
+        </h1>
+
+        <p>
+          {calculator.shortDescription}
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <section class="calculator-card">
+
+      <form id="calculatorForm">
+
+        <div id="calculatorInputs">
+        </div>
+
+        <div
+          id="validationMessage"
+          class="validation-message"
+        ></div>
+
+        <div class="calculator-actions">
+
+          <button
+            type="submit"
+            class="button button-primary"
+          >
+            Calculate
+          </button>
+
+          <button
+            type="button"
+            id="resetButton"
+            class="button button-secondary"
+          >
+            Reset
+          </button>
+
+        </div>
+
+      </form>
+
+
+      <div
+        id="resultCard"
+        class="result-card"
+      >
+
+        <div class="result-label">
+          {calculator.output.label}
+        </div>
+
+        <div
+          id="resultValue"
+          class="result-value"
+        >
+          Enter values to calculate
+        </div>
+
+        <div
+          id="resultInterpretation"
+          class="result-interpretation"
+        >
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="calculator-information">
+
+      <h2>Formula</h2>
+
+      <p>
+        {calculator.formula}
+      </p>
+
+
+      <h2>Clinical Interpretation</h2>
+
+      <ul>
+
+        {
+          calculator.interpretation.map(
+            (item) => <li>{item}</li>
+          )
+        }
+
+      </ul>
+
+
+      <h2>Clinical Notes</h2>
+
+      <p>
+        {calculator.clinicalNotes}
+      </p>
+
+
+      {
+        calculator.references.length > 0 && (
+
+          <>
+
+            <h2>References</h2>
+
+            <ul>
+
+              {
+                calculator.references.map(
+                  (reference) => (
+
+                    <li>
+
+                      {
+                        reference.url ? (
+
+                          <a
+                            href={reference.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {reference.label}
+                          </a>
+
+                        ) : (
+
+                          reference.label
+
+                        )
+                      }
+
+                    </li>
+
+                  )
+                )
+              }
+
+            </ul>
+
+          </>
+
+        )
+      }
+
+    </section>
+
+  </main>
+
+  <Footer />
+
+</BaseLayout>
+
+
+<script
+  define:vars={{ calculator }}
+>
+
+  import {
+    calculateByCalculatorId
+  } from '~/lib/calculators/dispatch';
+
+
+  const form =
+    document.getElementById(
+      'calculatorForm'
+    );
+
+  const inputsContainer =
+    document.getElementById(
+      'calculatorInputs'
+    );
+
+  const resultValue =
+    document.getElementById(
+      'resultValue'
+    );
+
+  const resultInterpretation =
+    document.getElementById(
+      'resultInterpretation'
+    );
+
+  const validationMessage =
+    document.getElementById(
+      'validationMessage'
+    );
+
+  const resetButton =
+    document.getElementById(
+      'resetButton'
+    );
+
+
+  function createInput(input) {
+
+    const group =
+      document.createElement('div');
+
+    group.className =
+      'input-group';
+
+
+    const label =
+      document.createElement('label');
+
+    label.className =
+      'input-label';
+
+    label.htmlFor =
+      input.id;
+
+    label.textContent =
+      input.label;
+
+
+    group.appendChild(label);
+
+
+    /*
+     * SELECT INPUT
+     */
+    if (input.type === 'select') {
+
+      const select =
+        document.createElement('select');
+
+      select.id =
+        input.id;
+
+      select.className =
+        'select-control';
+
+
+      for (
+        const option
+        of input.unitOptions || []
+      ) {
+
+        const opt =
+          document.createElement('option');
+
+        opt.value =
+          option;
+
+        opt.textContent =
+          option;
+
+        select.appendChild(opt);
+
+      }
+
+
+      group.appendChild(select);
+
+      return group;
+    }
+
+
+    /*
+     * NUMBER INPUT
+     */
+
+    const inputEl =
+      document.createElement('input');
+
+    inputEl.type =
+      'number';
+
+    inputEl.id =
+      input.id;
+
+    inputEl.className =
+      'input-control';
+
+    inputEl.step =
+      input.step || 'any';
+
+
+    if (
+      input.min !== undefined
+    ) {
+
+      inputEl.min =
+        String(input.min);
+
+    }
+
+
+    if (
+      input.max !== undefined
+    ) {
+
+      inputEl.max =
+        String(input.max);
+
+    }
+
+
+    if (
+      input.placeholder
+    ) {
+
+      inputEl.placeholder =
+        input.placeholder;
+
+    }
+
+
+    if (
+      input.defaultValue !==
+      undefined
+    ) {
+
+      inputEl.value =
+        String(
+          input.defaultValue
+        );
+
+    }
+
+
+    group.appendChild(inputEl);
+
+
+    /*
+     * UNIT SELECTOR
+     */
+
+    if (
+      input.unitOptions &&
+      input.unitOptions.length > 0
+    ) {
+
+      const unitSelect =
+        document.createElement(
+          'select'
+        );
+
+      unitSelect.id =
+        `${input.id}-unit`;
+
+      unitSelect.className =
+        'select-control';
+
+
+      for (
+        const option
+        of input.unitOptions
+      ) {
+
+        const opt =
+          document.createElement(
+            'option'
+          );
+
+        opt.value =
+          option;
+
+        opt.textContent =
+          option;
+
+        unitSelect.appendChild(opt);
+
+      }
+
+
+      group.appendChild(
+        unitSelect
+      );
+
+    }
+
+
+    return group;
+
+  }
+
+
+  /*
+   * RENDER ALL INPUTS
+   */
+
+  function renderInputs() {
+
+    inputsContainer.innerHTML = '';
+
+
+    for (
+      const input
+      of calculator.inputs
+    ) {
+
+      inputsContainer.appendChild(
+        createInput(input)
+      );
+
+    }
+
+  }
+
+
+  /*
+   * COLLECT VALUES
+   */
+
+  function collectValues() {
+
+    const values = {};
+
+
+    for (
+      const input
+      of calculator.inputs
+    ) {
+
+      const element =
+        document.getElementById(
+          input.id
+        );
+
+
+      if (!element) {
+        continue;
+      }
+
+
+      if (
+        input.type === 'select'
+      ) {
+
+        values[input.id] =
+          element.value;
+
+        continue;
+
+      }
+
+
+      const value =
+        parseFloat(
+          element.value
+        );
+
+
+      values[input.id] =
+        value;
+
+
+      const unitSelect =
+        document.getElementById(
+          `${input.id}-unit`
+        );
+
+
+      if (unitSelect) {
+
+        values[
+          `${input.id}Unit`
+        ] =
+          unitSelect.value;
+
+      }
+
+    }
+
+
+    return values;
+
+  }
+
+
+  /*
+   * VALIDATION
+   */
+
+  function validate(values) {
+
+    for (
+      const input
+      of calculator.inputs
+    ) {
+
+      if (
+        input.type !==
+        'number'
+      ) {
+        continue;
+      }
+
+
+      const value =
+        values[input.id];
+
+
+      if (
+        typeof value !==
+        'number' ||
+        !Number.isFinite(value)
+      ) {
+
+        return `Please enter a valid ${input.label}.`;
+
+      }
+
+
+      if (
+        input.min !==
+        undefined &&
+        value < input.min
+      ) {
+
+        return `${input.label} must be at least ${input.min}.`;
+
+      }
+
+
+      if (
+        input.max !==
+        undefined &&
+        value > input.max
+      ) {
+
+        return `${input.label} must not exceed ${input.max}.`;
+
+      }
+
+    }
+
+
+    return '';
+
+  }
+
+
+  /*
+   * CALCULATE
+   */
+
+  form.addEventListener(
+    'submit',
+    (event) => {
+
+      event.preventDefault();
+
+
+      validationMessage.textContent =
+        '';
+
+
+      const values =
+        collectValues();
+
+
+      const error =
+        validate(values);
+
+
+      if (error) {
+
+        validationMessage.textContent =
+          error;
+
+        return;
+
+      }
+
+
+      try {
+
+        const result =
+          calculateByCalculatorId(
+            calculator.id,
+            values
+          );
+
+
+        if (!result) {
+
+          validationMessage.textContent =
+            'This calculator is not connected to the calculation engine yet.';
+
+          return;
+
+        }
+
+
+        resultValue.textContent =
+          `${result.value} ${result.unit || calculator.output.unit}`;
+
+
+        resultInterpretation.textContent =
+          calculator.interpretation.join(
+            ' • '
+          );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        validationMessage.textContent =
+          'Unable to calculate. Please check the entered values.';
+
+      }
+
+    }
+  );
+
+
+  /*
+   * RESET
+   */
+
+  resetButton.addEventListener(
+    'click',
+    () => {
+
+      form.reset();
+
+      resultValue.textContent =
+        'Enter values to calculate';
+
+      resultInterpretation.textContent =
+        '';
+
+      validationMessage.textContent =
+        '';
+
+    }
+  );
+
+
+  renderInputs();
+
+</script>

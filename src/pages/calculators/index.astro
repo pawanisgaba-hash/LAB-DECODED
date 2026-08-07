@@ -1,0 +1,84 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+
+import {
+  calculators,
+  getCalculatorCategories
+} from '~/lib/calculators/registry';
+
+const categories =
+  getCalculatorCategories();
+---
+<BaseLayout
+  title="Clinical Calculators"
+  description="Clinical laboratory and medical calculators"
+  pathname="/calculators"
+>
+
+  <Header />
+
+  <main>
+
+    <h1>Clinical Calculators</h1>
+
+    <p>
+      {calculators.length} calculators available
+    </p>
+
+
+    {
+      categories.map(
+        (category) => (
+
+          <section>
+
+            <h2>
+              {category}
+            </h2>
+
+            <div class="calculator-grid">
+
+              {
+                calculators
+                  .filter(
+                    calculator =>
+                      calculator.category ===
+                      category
+                  )
+                  .map(
+                    (calculator) => (
+
+                      <a
+                        href={`/calculators/${calculator.slug}`}
+                        class="calculator-card"
+                      >
+
+                        <h3>
+                          {calculator.name}
+                        </h3>
+
+                        <p>
+                          {calculator.shortDescription}
+                        </p>
+
+                      </a>
+
+                    )
+                  )
+              }
+
+            </div>
+
+          </section>
+
+        )
+      )
+    }
+
+  </main>
+
+  <Footer />
+
+</BaseLayout>

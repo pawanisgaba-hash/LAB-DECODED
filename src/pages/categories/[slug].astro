@@ -1,0 +1,38 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import Breadcrumbs from '~/components/Breadcrumbs.astro';
+import { categories } from '~/data/categories';
+import { calculators } from '~/data/calculators';
+
+export async function getStaticPaths() {
+  return categories.map((category) => ({ params: { slug: category.slug } }));
+}
+
+const { params } = Astro;
+const category = categories.find((item) => item.slug === params.slug);
+if (!category) throw new Error('Category not found');
+const categoryCalculators = calculators.filter((calc) => calc.category.toLowerCase() === category.name.toLowerCase());
+const pageTitle = `${category.name} Calculators · LabDecoded`;
+---
+<BaseLayout title={pageTitle} description={category.description} pathname={`/categories/${category.slug}`}>
+  <Header />
+  <section class="container section">
+    <Breadcrumbs items={[{ href: '/', label: 'Home' }, { href: '/categories', label: 'Categories' }, { label: category.name }]} />
+    <div class="page-heading" style="margin-top:1rem;">
+      <p class="badge">{category.name}</p>
+      <h1>{category.name} Calculators</h1>
+      <p>{category.description}</p>
+    </div>
+    <div class="grid grid-3" style="margin-top:1.5rem;">
+      {categoryCalculators.map((calculator) => (
+        <a class="card metric-card" href={`/calculators/${calculator.slug}`}>
+          <h3>{calculator.name}</h3>
+          <p>{calculator.shortDescription}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

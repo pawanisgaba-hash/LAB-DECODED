@@ -1,0 +1,26 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+---
+<BaseLayout title="About · LabDecoded" description="About LabDecoded, the clinical laboratory education and calculator platform." pathname="/about">
+  <Header />
+  <section class="container section">
+    <div class="page-heading">
+      <p class="badge">About</p>
+      <h1>About LabDecoded</h1>
+      <p>LabDecoded provides clinicians, laboratory scientists and healthcare professionals with practical calculators, diagnostic tools and laboratory knowledge.</p>
+    </div>
+    <div class="grid grid-2" style="margin-top:1.5rem;">
+      <div class="card metric-card">
+        <h3>Our mission</h3>
+        <p>Decode the laboratory through accurate tools, transparent formulas and clinically focused education.</p>
+      </div>
+      <div class="card metric-card">
+        <h3>Who we serve</h3>
+        <p>Pathologists, doctors, medical students, biomedical scientists, laboratory technicians and researchers.</p>
+      </div>
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

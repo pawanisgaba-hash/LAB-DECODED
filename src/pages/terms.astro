@@ -1,0 +1,19 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+---
+<BaseLayout title="Terms of Use · LabDecoded" description="Terms of use for LabDecoded clinical calculators and educational content." pathname="/terms">
+  <Header />
+  <section class="container section">
+    <div class="page-heading">
+      <p class="badge">Terms</p>
+      <h1>Terms of Use</h1>
+      <p>By using LabDecoded, you agree that this website is for informational and educational purposes only. It does not provide medical diagnosis or advice.</p>
+    </div>
+    <div class="card metric-card" style="margin-top:1.5rem;">
+      <p>Use calculators and content with clinical judgment. LabDecoded is not responsible for decisions made based on information presented on this site.</p>
+    </div>
+  </section>
+  <Footer />
+</BaseLayout>

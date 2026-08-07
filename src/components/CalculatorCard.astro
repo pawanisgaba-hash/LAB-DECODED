@@ -1,0 +1,14 @@
+---
+const { calculator } = Astro.props;
+---
+<article class="card metric-card">
+  <div>
+    <p class="badge">{calculator.category}</p>
+    <h3>{calculator.name}</h3>
+    <p>{calculator.shortDescription}</p>
+  </div>
+  <div style="margin-top:1rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;">
+    <a class="button button-secondary" href={`/calculators/${calculator.slug}`}>Open tool</a>
+    <div class="keyword-pill">{calculator.keywords[0] ?? calculator.category}</div>
+  </div>
+</article>
